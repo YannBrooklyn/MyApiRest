@@ -1,8 +1,10 @@
 const db = require ('../config/dbconfig')
 const bcrypt = require('bcryptjs')
 const jwt = require ('jsonwebtoken')
+const cookiep = require ('cookie-parser')
 require ("dotenv").config
-
+require('http')
+require('../config/dbconfig')
 
 exports.user = (req, res) => {
 
@@ -20,10 +22,13 @@ exports.user = (req, res) => {
                 }
                 else if (results.length > 0) {
                     console.log("Authentification sucess")
-                    const username = {name: iduser}
-
-                    const accessToken = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET)
-                    res.json({ accessToken: accessToken})
+                    const token = jwt.sign({Iduser: 'iduser'}, process.env.ACCESS_TOKEN_SECRET)
+                    console.log(token)
+                    res.cookiep("token", token, {
+                        httpOnly: true,
+                        
+                    })
+                    module.exports = token
                     return
                 } else {
                     console.log("wrong password")
@@ -39,6 +44,7 @@ exports.user = (req, res) => {
 }
 
 
-function authentificateToken(req, res, nex) {
-    
-}
+
+
+// const decoded = jwt.verify(exports.token, process.env.ACCESS_TOKEN_SECRET);
+//     console.log(decoded)
