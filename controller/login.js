@@ -23,13 +23,14 @@ exports.user = (req, res) => {
                 else if (results.length > 0) {
                     console.log("Authentification sucess")
                     const token = jwt.sign({Iduser: 'iduser'}, process.env.ACCESS_TOKEN_SECRET)
+                    console.log(jwt.sign)
                     console.log(token)
                     res.cookiep("token", token, {
-                        httpOnly: true,
+                        httpOnly: true
                         
                     })
                     module.exports = token
-                    return
+                    return res.redirect("/")
                 } else {
                     console.log("wrong password")
                     return
