@@ -1,31 +1,31 @@
 let express = require ('express')
-let app = express()
+const path = require('path')
+const app = express()
 let bodyParser = require ('body-parser')
-const router = require ("./routes/router.js")
-const mysql = require ("mysql")
-const dotenv = require ("dotenv").config({path : './.env'});
 
-console.log(process.env.CHOCOLAT_KEY)
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'mydatabase'
-});
 
-db.connect( (err) => {
-    if(err) {
-        console.log("----" + err)
-    }
-    else {
-        console.log("Its Good Bro")
-    }
-})
+
+
+
+const publicDirectory = path.join(__dirname, './public')
+app.use(express.urlencoded({ extended: false}))
+app.use(express.json());
+
+
+
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.use(express.static('static'))
-app.use(router)
+app.use(express.static(publicDirectory))
+
+app.use('/auth', require ('./routes/auth'))
+app.use('/edit', require ('./routes/edit.js'))
+app.use('/delete', require ('./routes/delete.js'))
+app.use('/get', require ('./routes/get.js'))
+app.use('/get', require ('./routes/users'))
+app.use('/', require ('./routes/login.js'))
 
 app.listen(3100)
+
