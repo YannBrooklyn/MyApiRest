@@ -34,7 +34,8 @@ exports.user = (req, res) => {
                 console.log("Message d'erreur", error)
                 return res.status(400)
             } else {
-                console.log("Message de results", results)
+                console.log( results)
+                
                 
                 return res.status(201)
             }

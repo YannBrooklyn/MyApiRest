@@ -8,7 +8,7 @@ require('../config/dbconfig')
 
 exports.user = (req, res) => {
 
-    const {iduser, email, password } = req.body
+    const { email, password } = req.body
     db.query('Select Email From User Where Email = ?', [email], (error, results) => {
         
         if (error) {
@@ -16,21 +16,19 @@ exports.user = (req, res) => {
         }
         else if (results.length > 0) {
             console.log("email correct")
-            db.query(`Select Password From user Where Email = ? AND Password = ?`, [email, password], (error, results) => {
+            db.query(`Select Password From user Where Email = ? AND Password = ?`, [email, password], async (error, results) => {
                 if (error) {
                     console.log("veuillez ressayer", error)
                 }
-                else if (results.length > 0) {
+                else if (results.length > 0 && await bcrypt.compare(password, results.password)) {
                     console.log("Authentification sucess")
+                    
                     const token = jwt.sign({Iduser: 'iduser'}, process.env.ACCESS_TOKEN_SECRET)
-                    console.log(jwt.sign)
+                    
                     console.log(token)
-                    res.cookiep("token", token, {
-                        httpOnly: true
-                        
-                    })
                     module.exports = token
-                    return res.redirect("/")
+                    
+                    return res.redirect('/')
                 } else {
                     console.log("wrong password")
                     return
@@ -47,5 +45,5 @@ exports.user = (req, res) => {
 
 
 
-// const decoded = jwt.verify(exports.token, process.env.ACCESS_TOKEN_SECRET);
-//     console.log(decoded)
+
+
