@@ -1,10 +1,22 @@
 const jwt = require('jsonwebtoken')
-const token = require('../controller/login')
+const dotenv = require ('dotenv')
+dotenv.config({path: "../.env"})
+const token = require('../controller/login');
 
-exports.jwtcookie = (req, res, nex) => {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log(decoded)
-    req.user = decoded
-    nex();
+
+function verifyToken(req, res, nex) {
+    console.log("req", req)
+    
+    const token = req.headers.authorization
+    if (!token) {
+        return res.status(401).json ({ error: 'Access denied. Token missing.'})
+    }
+    jwt.verify(token, process.env.J_SECRET, (error, decoded) => {
+        if (error) {
+            return res.status(401).json ({error: 'Invalid token'})
+        }
+        req.user = decoded
+        nex()
+    })
 }
 

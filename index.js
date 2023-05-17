@@ -3,8 +3,9 @@ const path = require('path')
 const app = express()
 let bodyParser = require ('body-parser')
 const cookieParser = require('cookie-parser')
-const { jwtcookie } = require('./middleware/jwtcookie.js')
-
+const jwtcookie  = require('./middleware/jwtcookie.js')
+const dotenv = require ('dotenv')
+dotenv.config({path: "../.env"})
 
 
 
@@ -28,6 +29,10 @@ app.use('/delete', require ('./routes/delete.js'))
 app.use('/get', require ('./routes/get.js'))
 app.use('/get', require ('./routes/users.js'))
 app.use('/', require ('./routes/login.js'))
+
+
+
+    
 
 
 app.listen(3100)

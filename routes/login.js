@@ -5,9 +5,8 @@ const db = require ('../config/dbconfig')
 const jwt = require ('jsonwebtoken')
 
 
-router.post('/login', logincontroller.user, (req, res) =>  {
-    
-})
+
+router.post('/login', logincontroller.user)
 
 
 
