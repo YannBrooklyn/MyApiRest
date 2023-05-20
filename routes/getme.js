@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const userscontroller = require ('../controller/users')
+const getmecontroller = require('../controller/getme')
 const verifyToken = require('../middleware/jwtcookie')
 
-
-router.get('/users', verifyToken, userscontroller.users)
+router.get('/me', verifyToken, getmecontroller.user)
 
 module.exports = router

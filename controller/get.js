@@ -12,7 +12,7 @@ exports.user = (req, res) => {
          return res.status(400)
      } else {
           console.log("L'utilisateur a bien été récupéré", results)
-         return res.status(201)
+         return res.status(201).json({ message: "c'est bon"})
      }
  })
 

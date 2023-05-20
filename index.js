@@ -29,6 +29,7 @@ app.use('/delete', require ('./routes/delete.js'))
 app.use('/get', require ('./routes/get.js'))
 app.use('/get', require ('./routes/users.js'))
 app.use('/', require ('./routes/login.js'))
+app.use('/', require ('./routes/getme.js'))
 
 
 
